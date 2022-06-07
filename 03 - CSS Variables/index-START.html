@@ -21,7 +21,24 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    /* defining CSS variables (they are prepended with '--'') the variables
+     are applied to the root which is the highest level of the document */
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
 
+    /* Using CSS variables for the img and h1 elements*/
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .h1 {
+      color: var(--base);
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -45,6 +62,18 @@
   </style>
 
   <script>
+    // Gets all elements with controls or input class
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      // Gets the px from the data-sizing attribute or is empty
+      const suffix = this.dataset.sizing || '';
+      // Changes the value of the attribute
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix)
+    }
+    // Event listeners for the inputs
+    inputs.forEach(input => input.addEventListener('change', handleUpdate))
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate))
   </script>
 
 </body>
