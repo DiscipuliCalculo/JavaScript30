@@ -17,6 +17,50 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+const cities = [];
+
+fetch(endpoint)
+  .then(blob =>blob.json())
+  .then(data => cities.push(...data))
+
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    // here we create a regular expression to match the city or the state
+    const reqex = new RegExp(wordToMatch, 'gi');
+    return place.city.match(regex) || place.state.match(regex)
+  });
+}
+
+//Function to convert numbers to string and add commas
+function numberWithCommas(x) {
+  returnx.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function displayMatches() {
+  // matchArray gets array from the findMatches function
+  const matchArray = findMatches(this.value, cities);
+  const html = matcheArray.map(place => {
+    const regex = new Regexp(this.value, 'gi');
+    const cityName = place.city.replace(regex, `<span class="h1">${this.value}</span>`);
+    const stateName = place.state.replace(regex, `<span class="h1">${this.value}</span>`);
+    return `
+    <li>
+      <span class="name">${cityName}, ${stateName}</span>
+      <span class="population">${numberWithCommas(place.population)}</span>
+    <li>
+    `;
+  }).join('')
+  console.log(this.value);
+}
+
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+/* create event listeners for change in search input word */
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches)
+
 </script>
 </body>
 </html>
